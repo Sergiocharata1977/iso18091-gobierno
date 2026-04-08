@@ -1,0 +1,54 @@
+name: SAGA Lightweight CI
+
+on:
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'src/services/agents/**'
+      - 'src/__tests__/services/SagaService.test.ts'
+      - 'src/__tests__/services/SagaService.evaluate.test.ts'
+      - 'src/__tests__/services/AgentQueueService.saga.test.ts'
+      - 'jest.config.ts'
+      - 'package-lock.json'
+      - '.github/workflows/saga-light-ci.yml'
+  push:
+    branches: [main, develop]
+    paths:
+      - 'src/services/agents/**'
+      - 'src/__tests__/services/SagaService.test.ts'
+      - 'src/__tests__/services/SagaService.evaluate.test.ts'
+      - 'src/__tests__/services/AgentQueueService.saga.test.ts'
+      - 'jest.config.ts'
+      - 'package-lock.json'
+      - '.github/workflows/saga-light-ci.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: saga-light-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  saga-tests:
+    name: Saga Critical Suites
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Run saga suites in-band
+        run: >
+          npm test -- --config jest.config.ts --runInBand
+          src/__tests__/services/SagaService.test.ts
+          src/__tests__/services/SagaService.evaluate.test.ts
+          src/__tests__/services/AgentQueueService.saga.test.ts

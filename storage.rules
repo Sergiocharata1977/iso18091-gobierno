@@ -1,0 +1,86 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+    
+    function isAdmin() {
+      return request.auth != null && 
+             firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.rol == 'admin';
+    }
+    
+    // Archivos privados por usuario
+    match /private/{userId}/{allPaths=**} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow write: if isOwner(userId) && 
+                      request.resource.size < 10 * 1024 * 1024; // Max 10MB
+      allow delete: if isOwner(userId) || isAdmin();
+    }
+    
+    // Archivos de organizaciones (Document Integration Service)
+    match /organizations/{orgId}/{allPaths=**} {
+      allow read: if isAuthenticated() && request.auth.token.organization_id == orgId;
+      
+      // Escritura con validación de tipo MIME y tamaño
+      allow write: if isAuthenticated() && 
+                      request.resource.size < 10 * 1024 * 1024 && // Max 10MB
+                      request.resource.contentType.matches(
+                        'image/(jpeg|png|gif|webp)|' +
+                        'video/(mp4|webm|quicktime)|' +
+                        'audio/(mpeg|wav)|' +
+                        'application/(pdf|msword|vnd\\.openxmlformats-officedocument\\.(wordprocessingml\\.document|spreadsheetml\\.sheet)|vnd\\.ms-excel)'
+                      );
+      
+      allow delete: if isAdmin();
+    }
+    
+    // Archivos de documentos (legacy - mantener compatibilidad)
+    match /documents/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated() && 
+                      request.resource.size < 10 * 1024 * 1024 &&
+                      request.resource.contentType.matches(
+                        'image/(jpeg|png|gif|webp)|' +
+                        'video/(mp4|webm|quicktime)|' +
+                        'audio/(mpeg|wav)|' +
+                        'application/(pdf|msword|vnd\\.openxmlformats-officedocument\\.(wordprocessingml\\.document|spreadsheetml\\.sheet)|vnd\\.ms-excel)'
+                      );
+    }
+    
+    // Archivos de evidencias (legacy - mantener compatibilidad)
+    match /evidences/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated() && 
+                      request.resource.size < 10 * 1024 * 1024 &&
+                      request.resource.contentType.matches(
+                        'image/(jpeg|png|gif|webp)|' +
+                        'video/(mp4|webm|quicktime)|' +
+                        'audio/(mpeg|wav)|' +
+                        'application/(pdf|msword|vnd\\.openxmlformats-officedocument\\.(wordprocessingml\\.document|spreadsheetml\\.sheet)|vnd\\.ms-excel)'
+                      );
+    }
+    
+    // Archivos de noticias/publicaciones
+    match /news/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated() && 
+                      request.resource.size < 10 * 1024 * 1024; // Max 10MB por imagen
+      allow delete: if isAuthenticated();
+    }
+    
+    // Archivos de evidencia para puntos de norma y otros módulos
+    match /evidence/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated() && 
+                      request.resource.size < 10 * 1024 * 1024; // Max 10MB
+      allow delete: if isAuthenticated();
+    }
+  }
+}

@@ -1,0 +1,216 @@
+import type { PluginManifest } from '@/types/plugins';
+
+export const packGovManifest: PluginManifest = {
+  manifest_version: '1.0',
+  type: 'bundle',
+  bundle_includes: [
+    'gov_ciudadano_360',
+    'gov_expedientes',
+    'gov_service_catalog',
+    'gov_transparencia',
+    'gov_participacion',
+    'gov_maturity_18091',
+  ],
+  bundle_plugins: [
+    'gov_ciudadano_360',
+    'gov_expedientes',
+    'gov_service_catalog',
+    'gov_transparencia',
+    'gov_participacion',
+    'gov_maturity_18091',
+  ],
+  identity: {
+    plugin_id: 'pack_gov',
+    slug: 'gobierno-local-iso18091',
+    display_name: 'Gobierno Local ISO 18091',
+    summary:
+      'Gestion municipal certificable bajo ISO 18091 con atencion ciudadana, expedientes y transparencia.',
+    description:
+      'Pack de gobierno local para municipios y organismos publicos con flujos de atencion ciudadana, expediente digital, carta de servicios, diagnostico de madurez y transparencia.',
+    owner: {
+      type: 'platform',
+      owner_id: '9001app',
+      legal_name: '9001app Platform',
+      support_email: 'soporte@9001app.com',
+    },
+    tier: 'premium',
+    category: 'iso_government',
+    visibility: 'public_marketplace',
+    maturity: 'beta',
+  },
+  versioning: {
+    plugin_version: '1.0.0',
+    release_channel: 'beta',
+    runtime_api_version: '1.0',
+    data_contract_version: '1.0',
+  },
+  compatibility: {
+    core_version_range: '*',
+    required_capabilities: [],
+    optional_capabilities: [],
+    incompatible_plugins: [],
+    tenant_types_allowed: [],
+    regions_allowed: [],
+    deployment_modes: ['shared_saas'],
+  },
+  dependencies: {
+    services: [],
+    secrets: [],
+    migrations: {
+      install: [],
+      update: [],
+      uninstall: [],
+    },
+  },
+  permissions: {
+    scopes: [],
+    data_access: {
+      pii: false,
+      financial: false,
+      payroll: false,
+    },
+    agent_access: {
+      read_skills_allowed: false,
+      write_skills_allowed: false,
+      human_approval_required_for_write: true,
+    },
+  },
+  tenant_settings: {
+    schema_version: '1.0',
+    required: false,
+    defaults: {},
+    schema: {},
+    secrets: [],
+    limits: {},
+  },
+  routes: {
+    navigation: [
+      {
+        id: 'pack_gov:ciudadanos',
+        path: '/gobierno/ciudadanos',
+        label: 'Ciudadanos',
+        feature_flag: 'gov_ciudadanos',
+        required_scopes: [],
+      },
+      {
+        id: 'pack_gov:expedientes',
+        path: '/gobierno/expedientes',
+        label: 'Expedientes',
+        feature_flag: 'gov_expedientes',
+        required_scopes: [],
+      },
+      {
+        id: 'pack_gov:servicios',
+        path: '/gobierno/servicios',
+        label: 'Carta de Servicios',
+        feature_flag: 'gov_servicios',
+        required_scopes: [],
+      },
+      {
+        id: 'pack_gov:madurez',
+        path: '/gobierno/madurez',
+        label: 'Diagnostico Madurez',
+        feature_flag: 'gov_madurez',
+        required_scopes: [],
+      },
+      {
+        id: 'pack_gov:transparencia',
+        path: '/gobierno/transparencia',
+        label: 'Transparencia',
+        feature_flag: 'gov_transparencia',
+        required_scopes: [],
+      },
+      {
+        id: 'pack_gov:control-interno',
+        path: '/gobierno/control-interno',
+        label: 'Control Interno',
+        feature_flag: 'gov_control',
+        required_scopes: [],
+      },
+    ],
+    pages: [
+      {
+        path: '/gobierno/ciudadanos',
+        type: 'internal',
+        feature_flag: 'gov_ciudadanos',
+        required_scopes: [],
+      },
+      {
+        path: '/gobierno/expedientes',
+        type: 'internal',
+        feature_flag: 'gov_expedientes',
+        required_scopes: [],
+      },
+      {
+        path: '/gobierno/servicios',
+        type: 'internal',
+        feature_flag: 'gov_servicios',
+        required_scopes: [],
+      },
+      {
+        path: '/gobierno/madurez',
+        type: 'internal',
+        feature_flag: 'gov_madurez',
+        required_scopes: [],
+      },
+      {
+        path: '/gobierno/transparencia',
+        type: 'internal',
+        feature_flag: 'gov_transparencia',
+        required_scopes: [],
+      },
+      {
+        path: '/gobierno/control-interno',
+        type: 'internal',
+        feature_flag: 'gov_control',
+        required_scopes: [],
+      },
+    ],
+    api: [],
+  },
+  events: {
+    emits: [],
+    consumes: [],
+  },
+  skills: {
+    exposes: [],
+  },
+  billing: {
+    model: 'subscription',
+    price_code: 'plugin.pack_gov',
+    revenue_share: {
+      platform_percent: 100,
+      partner_percent: 0,
+    },
+    usage_metered: false,
+    suspension_policy: 'manual_review',
+  },
+  audit: {
+    level: 'basic',
+    log_reads: false,
+    log_writes: true,
+    retention_days: 90,
+    trace_dimensions: ['organization_id', 'plugin_id'],
+  },
+  health: {
+    checks: ['catalog', 'configuration'],
+    status_policy: {
+      degraded_blocks_new_writes: false,
+      unhealthy_blocks_enable: true,
+    },
+  },
+  uninstall_strategy: {
+    mode: 'soft_remove',
+    export_required: false,
+    data_retention_days: 30,
+    reversible_within_days: 30,
+    blockers: [],
+  },
+  multi_tenant: {
+    isolation_model: 'logical_per_organization',
+    shared_code: true,
+    shared_runtime: true,
+    per_tenant_overrides_allowed: true,
+    tenant_override_policy: 'admin_approved',
+  },
+};

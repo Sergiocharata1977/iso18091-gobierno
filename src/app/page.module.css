@@ -1,0 +1,124 @@
+.page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 20px 1fr 20px;
+  align-items: center;
+  justify-items: center;
+  padding: 80px;
+  gap: 64px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  grid-row-start: 2;
+  align-items: center;
+}
+
+.logo {
+  height: auto;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+  list-style-position: inside;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.list code {
+  font-family: "Courier New", Courier, monospace;
+  background: #f4f4f5;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.ctas {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.primary,
+.secondary {
+  border-radius: 999px;
+  height: 48px;
+  padding: 0 20px;
+  border: 1px solid transparent;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.primary {
+  background: #171717;
+  color: #ffffff;
+}
+
+.primary:hover {
+  background: #2f2f2f;
+}
+
+.secondary {
+  border-color: #d4d4d8;
+  background: #ffffff;
+}
+
+.secondary:hover {
+  background: #f4f4f5;
+}
+
+.footer {
+  grid-row-start: 3;
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.footerLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 32px;
+    padding-bottom: 80px;
+  }
+
+  .main {
+    align-items: center;
+  }
+
+  .logo {
+    width: 180px;
+  }
+
+  .ctas {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .primary,
+  .secondary {
+    width: 100%;
+  }
+}

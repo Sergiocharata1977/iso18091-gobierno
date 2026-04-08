@@ -1,0 +1,434 @@
+[
+  {
+    "code": "4.1",
+    "title": "Comprensión de la organización y de su contexto",
+    "chapter": 4,
+    "category": "contexto",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "4.2",
+    "title": "Comprensión de las necesidades y expectativas de las partes interesadas",
+    "chapter": 4,
+    "category": "contexto",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "4.3",
+    "title": "Determinación del alcance del sistema de gestión de la calidad",
+    "chapter": 4,
+    "category": "contexto",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "4.4",
+    "title": "Sistema de gestión de la calidad y sus procesos",
+    "chapter": 4,
+    "category": "contexto",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "5.1.1",
+    "title": "Liderazgo y compromiso - Generalidades",
+    "chapter": 5,
+    "category": "liderazgo",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "5.1.2",
+    "title": "Enfoque al cliente",
+    "chapter": 5,
+    "category": "liderazgo",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "5.2.1",
+    "title": "Establecimiento de la política de la calidad",
+    "chapter": 5,
+    "category": "liderazgo",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "5.2.2",
+    "title": "Comunicación de la política de la calidad",
+    "chapter": 5,
+    "category": "liderazgo",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "5.3",
+    "title": "Roles, responsabilidades y autoridades en la organización",
+    "chapter": 5,
+    "category": "liderazgo",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "6.1",
+    "title": "Acciones para abordar riesgos y oportunidades",
+    "chapter": 6,
+    "category": "planificacion",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "6.2",
+    "title": "Objetivos de la calidad y planificación para lograrlos",
+    "chapter": 6,
+    "category": "planificacion",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "6.3",
+    "title": "Planificación de los cambios",
+    "chapter": 6,
+    "category": "planificacion",
+    "is_mandatory": true,
+    "priority": "media"
+  },
+  {
+    "code": "7.1.1",
+    "title": "Recursos - Generalidades",
+    "chapter": 7,
+    "category": "soporte",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "7.1.2",
+    "title": "Personas",
+    "chapter": 7,
+    "category": "soporte",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "7.1.3",
+    "title": "Infraestructura",
+    "chapter": 7,
+    "category": "soporte",
+    "is_mandatory": true,
+    "priority": "media"
+  },
+  {
+    "code": "7.1.4",
+    "title": "Ambiente para la operación de los procesos",
+    "chapter": 7,
+    "category": "soporte",
+    "is_mandatory": true,
+    "priority": "media"
+  },
+  {
+    "code": "7.1.5",
+    "title": "Recursos de seguimiento y medición",
+    "chapter": 7,
+    "category": "soporte",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "7.1.6",
+    "title": "Conocimientos de la organización",
+    "chapter": 7,
+    "category": "soporte",
+    "is_mandatory": true,
+    "priority": "media"
+  },
+  {
+    "code": "7.2",
+    "title": "Competencia",
+    "chapter": 7,
+    "category": "soporte",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "7.3",
+    "title": "Toma de conciencia",
+    "chapter": 7,
+    "category": "soporte",
+    "is_mandatory": true,
+    "priority": "media"
+  },
+  {
+    "code": "7.4",
+    "title": "Comunicación",
+    "chapter": 7,
+    "category": "soporte",
+    "is_mandatory": true,
+    "priority": "media"
+  },
+  {
+    "code": "7.5.1",
+    "title": "Información documentada - Generalidades",
+    "chapter": 7,
+    "category": "soporte",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "7.5.2",
+    "title": "Creación y actualización",
+    "chapter": 7,
+    "category": "soporte",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "7.5.3",
+    "title": "Control de la información documentada",
+    "chapter": 7,
+    "category": "soporte",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "8.1",
+    "title": "Planificación y control operacional",
+    "chapter": 8,
+    "category": "operacion",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "8.2.1",
+    "title": "Comunicación con el cliente",
+    "chapter": 8,
+    "category": "operacion",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "8.2.2",
+    "title": "Determinación de los requisitos para los productos y servicios",
+    "chapter": 8,
+    "category": "operacion",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "8.2.3",
+    "title": "Revisión de los requisitos para los productos y servicios",
+    "chapter": 8,
+    "category": "operacion",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "8.2.4",
+    "title": "Cambios en los requisitos para los productos y servicios",
+    "chapter": 8,
+    "category": "operacion",
+    "is_mandatory": true,
+    "priority": "media"
+  },
+  {
+    "code": "8.3.1",
+    "title": "Diseño y desarrollo - Generalidades",
+    "chapter": 8,
+    "category": "operacion",
+    "is_mandatory": false,
+    "priority": "media"
+  },
+  {
+    "code": "8.3.2",
+    "title": "Planificación del diseño y desarrollo",
+    "chapter": 8,
+    "category": "operacion",
+    "is_mandatory": false,
+    "priority": "media"
+  },
+  {
+    "code": "8.3.3",
+    "title": "Entradas para el diseño y el desarrollo",
+    "chapter": 8,
+    "category": "operacion",
+    "is_mandatory": false,
+    "priority": "media"
+  },
+  {
+    "code": "8.3.4",
+    "title": "Controles del diseño y desarrollo",
+    "chapter": 8,
+    "category": "operacion",
+    "is_mandatory": false,
+    "priority": "media"
+  },
+  {
+    "code": "8.3.5",
+    "title": "Salidas del diseño y desarrollo",
+    "chapter": 8,
+    "category": "operacion",
+    "is_mandatory": false,
+    "priority": "media"
+  },
+  {
+    "code": "8.3.6",
+    "title": "Cambios del diseño y desarrollo",
+    "chapter": 8,
+    "category": "operacion",
+    "is_mandatory": false,
+    "priority": "media"
+  },
+  {
+    "code": "8.4.1",
+    "title": "Control de procesos, productos y servicios suministrados externamente - Generalidades",
+    "chapter": 8,
+    "category": "operacion",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "8.4.2",
+    "title": "Tipo y alcance del control",
+    "chapter": 8,
+    "category": "operacion",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "8.4.3",
+    "title": "Información para los proveedores externos",
+    "chapter": 8,
+    "category": "operacion",
+    "is_mandatory": true,
+    "priority": "media"
+  },
+  {
+    "code": "8.5.1",
+    "title": "Control de la producción y de la provisión del servicio",
+    "chapter": 8,
+    "category": "operacion",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "8.5.2",
+    "title": "Identificación y trazabilidad",
+    "chapter": 8,
+    "category": "operacion",
+    "is_mandatory": true,
+    "priority": "media"
+  },
+  {
+    "code": "8.5.3",
+    "title": "Propiedad perteneciente a los clientes o proveedores externos",
+    "chapter": 8,
+    "category": "operacion",
+    "is_mandatory": true,
+    "priority": "media"
+  },
+  {
+    "code": "8.5.4",
+    "title": "Preservación",
+    "chapter": 8,
+    "category": "operacion",
+    "is_mandatory": true,
+    "priority": "media"
+  },
+  {
+    "code": "8.5.5",
+    "title": "Actividades posteriores a la entrega",
+    "chapter": 8,
+    "category": "operacion",
+    "is_mandatory": true,
+    "priority": "media"
+  },
+  {
+    "code": "8.5.6",
+    "title": "Control de los cambios",
+    "chapter": 8,
+    "category": "operacion",
+    "is_mandatory": true,
+    "priority": "media"
+  },
+  {
+    "code": "8.6",
+    "title": "Liberación de los productos y servicios",
+    "chapter": 8,
+    "category": "operacion",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "8.7",
+    "title": "Control de las salidas no conformes",
+    "chapter": 8,
+    "category": "operacion",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "9.1.1",
+    "title": "Seguimiento, medición, análisis y evaluación - Generalidades",
+    "chapter": 9,
+    "category": "evaluacion",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "9.1.2",
+    "title": "Satisfacción del cliente",
+    "chapter": 9,
+    "category": "evaluacion",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "9.1.3",
+    "title": "Análisis y evaluación",
+    "chapter": 9,
+    "category": "evaluacion",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "9.2",
+    "title": "Auditoría interna",
+    "chapter": 9,
+    "category": "evaluacion",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "9.3",
+    "title": "Revisión por la dirección",
+    "chapter": 9,
+    "category": "evaluacion",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "10.1",
+    "title": "Mejora - Generalidades",
+    "chapter": 10,
+    "category": "mejora",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "10.2",
+    "title": "No conformidad y acción correctiva",
+    "chapter": 10,
+    "category": "mejora",
+    "is_mandatory": true,
+    "priority": "alta"
+  },
+  {
+    "code": "10.3",
+    "title": "Mejora continua",
+    "chapter": 10,
+    "category": "mejora",
+    "is_mandatory": true,
+    "priority": "alta"
+  }
+]

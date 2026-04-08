@@ -1,0 +1,6 @@
+﻿
+ name                       value               environments        created    
+ FIREBASE_PRIVATE_KEY       Encrypted           Production          28d ago    
+ FIREBASE_CLIENT_EMAIL      Encrypted           Production          28d ago    
+ FIREBASE_PROJECT_ID        Encrypted           Production          28d ago    
+

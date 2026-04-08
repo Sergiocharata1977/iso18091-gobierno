@@ -1,0 +1,13 @@
+{
+  "name": "firebase-seeding-scripts",
+  "version": "1.0.0",
+  "description": "Scripts para poblar Firebase con datos de prueba",
+  "main": "seed-processes.js",
+  "scripts": {
+    "seed-processes": "node seed-processes.js",
+    "seed-rrhh": "node seed-rrhh.js"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.0.0"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/Usuario/.claude/projects/c--Users-Usuario-Documents-Proyectos-ISO--conjunto-9001app-firebase/memory/**)",
+      "Bash(npm run build)",
+      "Read(//c/Users/Usuario/Documents/Proyectos/**)",
+      "Bash(grep -n \"procesos_asignados\\\\|objetivos_asignados\\\\|indicadores_asignados\" src/types/*.ts)",
+      "Bash(ls \"c:/Users/Usuario/Documents/Proyectos/ISO -conjunto/9001app-firebase/src/app/\\(dashboard\\)/\")",
+      "Bash(ls \"c:/Users/Usuario/Documents/Proyectos/ISO -conjunto/9001app-firebase/src/app/\\(dashboard\\)/solicitudes/\")",
+      "Bash(vercel env ls --environment=production)",
+      "Bash(cat \"src/app/\\(dashboard\\)/mi-sgc/config/capabilities/page.tsx\")",
+      "Bash(ls \"src/app/\\(super-admin\\)/\")",
+      "Bash(ls \"src/app/\\(dashboard\\)/mi-sgc/config/\")",
+      "Bash(ls \"src/app/\\(dashboard\\)/\")",
+      "Bash(ls \"src/app/\\(dashboard\\)/super-admin/\")",
+      "Bash(ls \"src/app/\\(dashboard\\)/capabilities/\")",
+      "Bash(cat \"src/app/\\(dashboard\\)/capabilities/page.tsx\")",
+      "Bash(find \"src/app/\\(dashboard\\)/super-admin\" -name \"*.tsx\")",
+      "Bash(cat \"src/app/\\(dashboard\\)/super-admin/sistemas/page.tsx\")",
+      "Bash(cat \"src/app/\\(dashboard\\)/super-admin/organizaciones/[orgId]/page.tsx\")",
+      "Bash(ls \"src/app/\\(dashboard\\)/super-admin/capabilities/\")",
+      "Bash(find \"c:/Users/Usuario/Documents/Proyectos/ISO -conjunto/9001app-firebase/src/app/\\(dashboard\\)/crm\" -type f -name \"*.ts\" -o -name \"*.tsx\" -o -name \"*.md\")",
+      "Bash(ls -la \"c:/Users/Usuario/Documents/Proyectos/ISO -conjunto/9001app-firebase/src/app/\\(dashboard\\)/\")",
+      "Bash(ls -R \"c:/Users/Usuario/Documents/Proyectos/ISO -conjunto/9001app-firebase/src/app/\\(dashboard\\)/\")"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\Usuario\\.claude\\projects\\c--Users-Usuario-Documents-Proyectos-ISO--conjunto-9001app-firebase\\memory"
+    ]
+  }
+}

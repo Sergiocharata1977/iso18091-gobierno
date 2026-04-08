@@ -1,0 +1,88 @@
+import type { EstadoKanban } from '@/types/compras';
+
+// Estados default — se usan si el tenant no configuró los suyos
+// El tenant puede agregar, renombrar y reordenar desde /configuracion/kanban/compras
+export const DEFAULT_ESTADOS_COMPRAS: EstadoKanban[] = [
+  {
+    id: 'borrador',
+    nombre: 'Borrador',
+    color: 'slate',
+    orden: 1,
+    tipo: 'activo',
+    es_default: true,
+    bloqueado: false,
+    descripcion: 'Guardado sin enviar',
+  },
+  {
+    id: 'solicitada',
+    nombre: 'Solicitada',
+    color: 'blue',
+    orden: 2,
+    tipo: 'activo',
+    es_default: false,
+    bloqueado: false,
+    descripcion: 'Enviada, pendiente de aprobación',
+  },
+  {
+    id: 'aprobada',
+    nombre: 'Aprobada',
+    color: 'indigo',
+    orden: 3,
+    tipo: 'activo',
+    es_default: false,
+    bloqueado: false,
+    descripcion: 'Aprobada, pendiente de orden',
+  },
+  {
+    id: 'orden_emitida',
+    nombre: 'Orden Emitida',
+    color: 'amber',
+    orden: 4,
+    tipo: 'activo',
+    es_default: false,
+    bloqueado: false,
+    descripcion: 'OC emitida al proveedor',
+  },
+  {
+    id: 'recibida',
+    nombre: 'Recibida',
+    color: 'emerald',
+    orden: 5,
+    tipo: 'activo',
+    es_default: false,
+    bloqueado: false,
+    descripcion: 'Mercadería o servicio recibido',
+  },
+  {
+    id: 'cerrada',
+    nombre: 'Cerrada',
+    color: 'green',
+    orden: 6,
+    tipo: 'cerrado',
+    es_default: false,
+    bloqueado: true,
+    descripcion: 'Conformidad verificada y cerrada',
+  },
+  {
+    id: 'cancelada',
+    nombre: 'Cancelada',
+    color: 'rose',
+    orden: 7,
+    tipo: 'cancelado',
+    es_default: false,
+    bloqueado: true,
+    descripcion: 'Cancelada en cualquier etapa',
+  },
+];
+
+export const COLORES_DISPONIBLES = [
+  { id: 'slate',   label: 'Gris',     bg: 'bg-slate-500' },
+  { id: 'blue',    label: 'Azul',     bg: 'bg-blue-500' },
+  { id: 'indigo',  label: 'Índigo',   bg: 'bg-indigo-500' },
+  { id: 'violet',  label: 'Violeta',  bg: 'bg-violet-500' },
+  { id: 'amber',   label: 'Ámbar',    bg: 'bg-amber-500' },
+  { id: 'emerald', label: 'Esmeralda', bg: 'bg-emerald-500' },
+  { id: 'green',   label: 'Verde',    bg: 'bg-green-600' },
+  { id: 'cyan',    label: 'Cyan',     bg: 'bg-cyan-500' },
+  { id: 'rose',    label: 'Rosa',     bg: 'bg-rose-500' },
+];

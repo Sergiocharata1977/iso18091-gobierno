@@ -1,0 +1,476 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ========== FUNCIONES HELPER ==========
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Obtener datos del usuario actual
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && getUserData().rol == 'admin';
+    }
+    
+    function isManager() {
+      return isAuthenticated() && getUserData().rol in ['admin', 'gerente'];
+    }
+    
+    // Verifica que el usuario pertenezca a la organización objetivo
+    function belongsToOrganization(orgId) {
+      return isAuthenticated() && getUserData().organization_id == orgId;
+    }
+
+    function canReadCapabilityConfig(orgId) {
+      return isAuthenticated() &&
+             belongsToOrganization(orgId) &&
+             getUserData().rol in ['admin', 'gerente', 'auditor'];
+    }
+
+    function canManageCapabilityConfig(orgId) {
+      return isAuthenticated() && belongsToOrganization(orgId) && isAdmin();
+    }
+    
+    // Verifica que el recurso pertenezca a la organización del usuario
+    function resourceBelongsToUserOrg() {
+      return belongsToOrganization(resource.data.organization_id);
+    }
+    
+    // Verifica que el nuevo recurso se cree para la organización del usuario
+    function incomingResourceBelongsToUserOrg() {
+      return belongsToOrganization(request.resource.data.organization_id);
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // ========== ORGANIZATIONS ==========
+    
+    match /organizations/{orgId} {
+      allow read: if isAuthenticated() && belongsToOrganization(orgId);
+      allow write: if isAdmin();
+
+      match /installed_capabilities/{capId} {
+        allow read: if canReadCapabilityConfig(orgId);
+        allow create: if canManageCapabilityConfig(orgId) &&
+                         request.resource.data.capability_id == capId &&
+                         request.resource.data.installed_by == request.auth.uid;
+        allow update: if canManageCapabilityConfig(orgId) &&
+                         request.resource.data.capability_id == resource.data.capability_id &&
+                         request.resource.data.capability_id == capId &&
+                         request.resource.data.installed_by == resource.data.installed_by &&
+                         request.resource.data.installed_at == resource.data.installed_at;
+        allow delete: if canManageCapabilityConfig(orgId);
+      }
+
+      match /capability_audit_log/{logId} {
+        allow read: if canReadCapabilityConfig(orgId);
+        allow create, update, delete: if false;
+      }
+
+      match /maturity/{docId} {
+        allow read: if isAuthenticated() && belongsToOrganization(orgId);
+        allow write: if isAuthenticated() && belongsToOrganization(orgId) && isManager();
+      }
+
+      match /journey/{docId} {
+        allow read: if isAuthenticated() && belongsToOrganization(orgId);
+        allow write: if isAuthenticated() && belongsToOrganization(orgId);
+      }
+
+      // ─── Editor de Registros Configurables ────────────────────────
+
+      match /custom_register_schemas/{schemaId} {
+        // Lectura: cualquier miembro de la org
+        allow read: if belongsToOrganization(orgId);
+        // Crear/editar: manager o admin
+        allow create, update: if isAuthenticated() && belongsToOrganization(orgId) && isManager();
+        // Eliminar: solo admin (backend valida que no haya entradas)
+        allow delete: if isAuthenticated() && belongsToOrganization(orgId) && isAdmin();
+      }
+
+      match /custom_register_entries/{entryId} {
+        // Lectura: cualquier miembro de la org
+        allow read: if belongsToOrganization(orgId);
+        // Crear: cualquier miembro autenticado de la org
+        allow create: if isAuthenticated() && belongsToOrganization(orgId);
+        // Actualizar: cualquier miembro — audit_trail append-only se garantiza en backend
+        allow update: if isAuthenticated() && belongsToOrganization(orgId);
+        // Sin delete: inmutabilidad de compliance
+      }
+
+      // ─── Pack HSE (ISO 14001 + ISO 45001) ──────────────────────────
+
+      match /hse_incidentes/{docId} {
+        allow read: if belongsToOrganization(orgId);
+        allow create, update: if isAuthenticated() && belongsToOrganization(orgId);
+        allow delete: if isAuthenticated() && belongsToOrganization(orgId) && isAdmin();
+      }
+
+      match /hse_peligros/{docId} {
+        allow read: if belongsToOrganization(orgId);
+        allow create, update: if isAuthenticated() && belongsToOrganization(orgId);
+        allow delete: if isAuthenticated() && belongsToOrganization(orgId) && isManager();
+      }
+
+      match /hse_epp/{docId} {
+        allow read: if belongsToOrganization(orgId);
+        allow create, update: if isAuthenticated() && belongsToOrganization(orgId);
+        allow delete: if isAuthenticated() && belongsToOrganization(orgId) && isManager();
+      }
+
+      match /hse_aspectos_ambientales/{docId} {
+        allow read: if belongsToOrganization(orgId);
+        allow create, update: if isAuthenticated() && belongsToOrganization(orgId);
+        allow delete: if isAuthenticated() && belongsToOrganization(orgId) && isManager();
+      }
+
+      match /hse_requisitos_legales/{docId} {
+        allow read: if belongsToOrganization(orgId);
+        allow create, update: if isAuthenticated() && belongsToOrganization(orgId);
+        allow delete: if isAuthenticated() && belongsToOrganization(orgId) && isManager();
+      }
+
+      match /hse_objetivos_ambientales/{docId} {
+        allow read: if belongsToOrganization(orgId);
+        allow create, update: if isAuthenticated() && belongsToOrganization(orgId);
+        allow delete: if isAuthenticated() && belongsToOrganization(orgId) && isManager();
+      }
+      
+      match /citizens/{docId} {
+        allow read: if belongsToOrganization(orgId) && isAuthenticated();
+        allow create: if belongsToOrganization(orgId) && isManager();
+        allow update: if belongsToOrganization(orgId) && isManager();
+        allow delete: if false;
+      }
+
+      match /expedientes/{docId} {
+        allow read: if belongsToOrganization(orgId) && isAuthenticated();
+        allow create, update: if belongsToOrganization(orgId) && isManager();
+        allow delete: if false;
+      }
+
+      // ─── WhatsApp Conversations (Inbox Dashboard + Simulador) ──────────────
+
+      match /whatsapp_conversations/{convId} {
+        allow read, create, update: if isAuthenticated() && belongsToOrganization(orgId);
+        // No delete — las conversaciones son inmutables por trazabilidad
+      }
+
+      match /whatsapp_conversations/{convId}/messages/{msgId} {
+        allow read, create: if isAuthenticated() && belongsToOrganization(orgId);
+        // No update, no delete — inmutabilidad de mensajes
+      }
+    }
+    
+    // ========== USERS ==========
+    
+    match /users/{userId} {
+      allow read: if isAuthenticated() && (
+        request.auth.uid == userId || 
+        (belongsToOrganization(resource.data.organization_id))
+      );
+      allow create: if isAdmin();
+      allow update: if isOwner(userId) || isAdmin();
+      allow delete: if isAdmin();
+      
+      match /private/{itemId} {
+        allow read, write: if isOwner(userId);
+      }
+    }
+    
+    // ========== CORE COLLECTIONS ==========
+    
+    match /audits/{auditId} {
+      allow read: if resourceBelongsToUserOrg();
+      allow create: if incomingResourceBelongsToUserOrg();
+      allow update: if resourceBelongsToUserOrg() && incomingResourceBelongsToUserOrg() && isManager();
+      allow delete: if resourceBelongsToUserOrg() && isAdmin();
+    }
+    
+    match /findings/{findingId} {
+      allow read: if resourceBelongsToUserOrg();
+      allow create: if incomingResourceBelongsToUserOrg();
+      allow update: if resourceBelongsToUserOrg() && incomingResourceBelongsToUserOrg();
+      allow delete: if resourceBelongsToUserOrg() && isManager();
+    }
+    
+    match /actions/{actionId} {
+      allow read: if resourceBelongsToUserOrg();
+      allow create: if incomingResourceBelongsToUserOrg();
+      allow update: if resourceBelongsToUserOrg() && incomingResourceBelongsToUserOrg();
+      allow delete: if resourceBelongsToUserOrg() && isManager();
+    }
+
+    match /design_projects/{projectId} {
+      allow read: if isAuthenticated() && belongsToOrganization(resource.data.organizationId);
+      allow create: if isAuthenticated() &&
+                       isManager() &&
+                       belongsToOrganization(request.resource.data.organizationId);
+      allow update: if isAuthenticated() &&
+                       isManager() &&
+                       belongsToOrganization(resource.data.organizationId) &&
+                       belongsToOrganization(request.resource.data.organizationId) &&
+                       request.resource.data.organizationId == resource.data.organizationId &&
+                       request.resource.data.createdBy == resource.data.createdBy &&
+                       request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if isAuthenticated() &&
+                       isAdmin() &&
+                       belongsToOrganization(resource.data.organizationId);
+    }
+    
+    match /documents/{docId} {
+      allow read: if resourceBelongsToUserOrg();
+      allow create: if incomingResourceBelongsToUserOrg();
+      allow update: if resourceBelongsToUserOrg() && isManager();
+      // Delete solo si no tiene referencias bloqueadas (validado en backend)
+      allow delete: if resourceBelongsToUserOrg() && isManager();
+    }
+    
+    // ========== DOCUMENT REFERENCES (Document Integration Service) ==========
+    
+    match /document_references/{refId} {
+      // Lectura: cualquier miembro de la organización
+      allow read: if resourceBelongsToUserOrg();
+      
+      // Creación: cualquier usuario autenticado de la org
+      allow create: if incomingResourceBelongsToUserOrg() && 
+                       request.resource.data.created_by == request.auth.uid;
+      
+      // Actualización: solo para actualizar metadata, no campos críticos
+      allow update: if resourceBelongsToUserOrg() && 
+                       incomingResourceBelongsToUserOrg() &&
+                       // No permitir cambiar documento vinculado
+                       request.resource.data.document_id == resource.data.document_id &&
+                       // No permitir cambiar módulo/registro vinculado
+                       request.resource.data.source_module == resource.data.source_module &&
+                       request.resource.data.linked_record_id == resource.data.linked_record_id;
+      
+      // Eliminación: solo si no está bloqueada (ISO 9001)
+      allow delete: if resourceBelongsToUserOrg() && 
+                       (isManager() || resource.data.created_by == request.auth.uid) &&
+                       resource.data.is_locked == false;
+    }
+
+    
+    // ========== RRHH ==========
+
+    match /departments/{departmentId} {
+      allow read: if resourceBelongsToUserOrg();
+      allow create: if incomingResourceBelongsToUserOrg() && isManager();
+      allow update: if resourceBelongsToUserOrg() && incomingResourceBelongsToUserOrg() && isManager();
+      allow delete: if resourceBelongsToUserOrg() && isAdmin();
+    }
+
+    match /personnel/{personnelId} {
+      allow read: if resourceBelongsToUserOrg();
+      allow create: if isAuthenticated() && isManager() && incomingResourceBelongsToUserOrg();
+      allow update: if resourceBelongsToUserOrg() && incomingResourceBelongsToUserOrg(); // Permitir actualizaciones generales por ahora
+      allow delete: if resourceBelongsToUserOrg() && isManager();
+    }
+
+    match /positions/{positionId} {
+      allow read: if resourceBelongsToUserOrg();
+      allow create: if incomingResourceBelongsToUserOrg() && isManager();
+      allow update: if resourceBelongsToUserOrg() && incomingResourceBelongsToUserOrg() && isManager();
+      allow delete: if resourceBelongsToUserOrg() && isManager();
+    }
+    
+    match /competencias/{competenciaId} {
+      allow read: if resourceBelongsToUserOrg();
+      allow create: if incomingResourceBelongsToUserOrg() && isManager();
+      allow update: if resourceBelongsToUserOrg() && incomingResourceBelongsToUserOrg() && isManager();
+      allow delete: if resourceBelongsToUserOrg() && isManager();
+    }
+    
+    match /trainings/{trainingId} {
+      allow read: if resourceBelongsToUserOrg();
+      allow create: if isAuthenticated() && isManager() && incomingResourceBelongsToUserOrg();
+      allow update: if resourceBelongsToUserOrg() && incomingResourceBelongsToUserOrg();
+      allow delete: if resourceBelongsToUserOrg() && isManager();
+    }
+    
+    match /evaluations/{evaluationId} {
+      allow read: if resourceBelongsToUserOrg();
+      allow create: if incomingResourceBelongsToUserOrg();
+      allow update: if resourceBelongsToUserOrg() && incomingResourceBelongsToUserOrg();
+      allow delete: if resourceBelongsToUserOrg() && isManager();
+    }
+    
+    // ========== CALENDAR & OTHERS ==========
+    
+    match /calendar_events/{eventId} {
+      allow read: if resourceBelongsToUserOrg();
+      allow create: if incomingResourceBelongsToUserOrg();
+      allow update: if resourceBelongsToUserOrg() && incomingResourceBelongsToUserOrg();
+      allow delete: if resourceBelongsToUserOrg() && isManager();
+    }
+
+    match /chat_sessions/{sessionId} {
+      allow read: if isAuthenticated() && resource.data.user_id == request.auth.uid;
+      allow create: if isAuthenticated() && request.resource.data.user_id == request.auth.uid;
+      allow update: if isAuthenticated() && resource.data.user_id == request.auth.uid;
+    }
+    
+    match /uso_claude/{usoId} {
+      allow read: if isAuthenticated() && resource.data.user_id == request.auth.uid;
+      allow create: if isAuthenticated() && request.resource.data.user_id == request.auth.uid;
+    }
+
+    match /platform_config/{docId} {
+      allow read: if isAuthenticated() && getUserData().rol == 'super_admin';
+      allow write: if isAuthenticated() && getUserData().rol == 'super_admin';
+    }
+    // ========== SHARED ITEMS (con multi-tenancy) ==========
+    match /shared_items/{shareId} {
+      // CORREGIDO: Ahora valida organization_id
+      allow read: if resourceBelongsToUserOrg();
+      allow create: if incomingResourceBelongsToUserOrg();
+      allow update: if resourceBelongsToUserOrg() && incomingResourceBelongsToUserOrg();
+      allow delete: if resourceBelongsToUserOrg() && isManager();
+    }
+    
+    // ========== COUNTERS (para TraceabilityService) ==========
+    match /counters/{counterId} {
+      // Los contadores segregados por org usan formato: orgId-PREFIX-YEAR
+      // Solo permitir lectura/escritura si el contador pertenece a la org del usuario
+      // o si es un contador global (sin org_id en el documento)
+      allow read: if isAuthenticated() && (
+        resource.data.organization_id == null || 
+        resource.data.organization_id == getUserData().organization_id
+      );
+      allow write: if isAuthenticated() && (
+        request.resource.data.organization_id == null || 
+        request.resource.data.organization_id == getUserData().organization_id
+      );
+    }
+    
+    // ========== AUDIT LOGS (trazabilidad ISO 9001) ==========
+    match /audit_logs/{logId} {
+      // Los logs son inmutables: solo se pueden crear y leer, nunca actualizar/borrar
+      allow read: if resourceBelongsToUserOrg() || isAdmin();
+      allow create: if incomingResourceBelongsToUserOrg();
+      allow update, delete: if false; // Logs inmutables
+    }
+
+    match /system_activity_log/{logId} {
+      // Registro central inmutable para trazabilidad transversal
+      allow read: if resourceBelongsToUserOrg() || isAdmin();
+      allow create: if incomingResourceBelongsToUserOrg();
+      allow update, delete: if false;
+    }
+    
+    // ========== LANDING LEADS (solo backend con Admin SDK) ==========
+    match /landing_leads/{leadId} {
+      // Solo acceso desde backend (Admin SDK bypasea reglas)
+      // Admins pueden ver todos los leads
+      allow read: if isAdmin() && getUserData().rol == 'super_admin';
+      allow write: if false; // Solo backend
+    }
+    
+    // ========== NEWS & SOCIAL ==========
+    
+    match /news_posts/{postId} {
+      allow read: if resourceBelongsToUserOrg();
+      allow create: if incomingResourceBelongsToUserOrg();
+      allow update: if resourceBelongsToUserOrg() && (isManager() || resource.data.authorId == request.auth.uid);
+      allow delete: if resourceBelongsToUserOrg() && isManager();
+    }
+
+    match /news_comments/{commentId} {
+      allow read: if resourceBelongsToUserOrg();
+      allow create: if incomingResourceBelongsToUserOrg();
+      allow update, delete: if resourceBelongsToUserOrg() && (isManager() || resource.data.authorId == request.auth.uid);
+    }
+
+    // ========== PROCESSES (Unified) ==========
+    
+    match /processDefinitions/{processId} {
+      allow read: if resourceBelongsToUserOrg();
+      allow create: if incomingResourceBelongsToUserOrg() && isManager();
+      allow update: if resourceBelongsToUserOrg() && incomingResourceBelongsToUserOrg() && isManager();
+      allow delete: if resourceBelongsToUserOrg() && isAdmin();
+    }
+
+    match /processRecords/{recordId} {
+      allow read: if resourceBelongsToUserOrg();
+      allow create: if incomingResourceBelongsToUserOrg();
+      allow update: if resourceBelongsToUserOrg() && incomingResourceBelongsToUserOrg();
+      allow delete: if resourceBelongsToUserOrg() && isManager();
+    }
+
+    match /processRecordStages/{stageId} {
+      allow read: if resourceBelongsToUserOrg();
+      allow create, update: if incomingResourceBelongsToUserOrg();
+      allow delete: if resourceBelongsToUserOrg() && isManager();
+    }
+
+    match /processRecordTasks/{taskId} {
+      allow read: if resourceBelongsToUserOrg();
+      allow create, update: if incomingResourceBelongsToUserOrg();
+      allow delete: if resourceBelongsToUserOrg() && isManager();
+    }
+
+    // ========== PLANNING & STRATEGY ==========
+
+    match /plan_alcance/{id} { allow read: if resourceBelongsToUserOrg(); allow write: if isManager(); }
+    match /plan_contexto/{id} { allow read: if resourceBelongsToUserOrg(); allow write: if isManager(); }
+    match /plan_estructura/{id} { allow read: if resourceBelongsToUserOrg(); allow write: if isManager(); }
+    match /plan_identidad/{id} { allow read: if resourceBelongsToUserOrg(); allow write: if isManager(); }
+    match /plan_politicas/{id} { allow read: if resourceBelongsToUserOrg(); allow write: if isManager(); }
+
+    // ========== NORM POINTS ==========
+    
+    match /normPoints/{id} {
+      allow read: if resourceBelongsToUserOrg();
+      allow write: if isManager();
+    }
+
+
+    // ========== AI CORE — Olas 1-3 ==========
+    // Todas las colecciones son server-side (Admin SDK). Los clientes solo pueden leer sus propios datos.
+
+    match /ai_conversations/{docId} {
+      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow write: if false; // Solo Admin SDK
+    }
+
+    match /ai_messages/{docId} {
+      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow write: if false; // Solo Admin SDK
+    }
+
+    match /ai_action_logs/{docId} {
+      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow write: if false; // Solo Admin SDK
+    }
+
+    match /ai_user_profiles/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if false; // Solo Admin SDK
+    }
+
+    match /channel_identity_links/{docId} {
+      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow write: if false; // Solo Admin SDK
+    }
+
+    match /ai_idempotency_keys/{docId} {
+      allow read, write: if false; // Solo Admin SDK — nunca exponer al cliente
+    }
+
+    // ========== DEFAULT FALLBACK ==========
+    // Bloquear acceso por defecto para forzar reglas explícitas
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+  }
+}

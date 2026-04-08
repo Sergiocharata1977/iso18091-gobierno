@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Operaciones: gear/settings icon -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Gear outer ring -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,36 C44.06,36 36,44.06 36,54 C36,63.94 44.06,72 54,72 C63.94,72 72,63.94 72,54 C72,44.06 63.94,36 54,36 Z M54,64 C48.48,64 44,59.52 44,54 C44,48.48 48.48,44 54,44 C59.52,44 64,48.48 64,54 C64,59.52 59.52,64 54,64 Z" />
+    <!-- Gear teeth top/bottom/left/right -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M50,30 L50,36 L58,36 L58,30 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M50,72 L50,78 L58,78 L58,72 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M30,50 L30,58 L36,58 L36,50 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M72,50 L72,58 L78,58 L78,50 Z" />
+    <!-- Diagonal teeth -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M36,34 L40,38 L45,33 L41,29 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M63,75 L67,71 L72,76 L68,80 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M72,34 L68,38 L63,33 L67,29 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M36,74 L40,70 L45,75 L41,79 Z" />
+    <!-- Center hole -->
+    <path
+        android:fillColor="#E65100"
+        android:pathData="M54,48 C51.79,48 50,49.79 50,52 C50,54.21 51.79,56 54,56 C56.21,56 58,54.21 58,52 C58,49.79 56.21,48 54,48 Z" />
+</vector>

@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "69562046511",
+    "firebase_url": "https://app-4b05c-default-rtdb.firebaseio.com",
+    "project_id": "app-4b05c",
+    "storage_bucket": "app-4b05c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:69562046511:android:ceb04c57a9c9ebdcc60eda",
+        "android_client_info": {
+          "package_name": "com.doncandido.vendedor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "69562046511-vm8ntvvsds88l2u7f2a1kb6cbhtd66qp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBI9J_Cdy2XPwTuE5Yqglq62tGf3AUZosU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "69562046511-vm8ntvvsds88l2u7f2a1kb6cbhtd66qp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:69562046511:android:673593efccfb0443c60eda",
+        "android_client_info": {
+          "package_name": "com.doncandido.vendedor.operaciones"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "69562046511-vm8ntvvsds88l2u7f2a1kb6cbhtd66qp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBI9J_Cdy2XPwTuE5Yqglq62tGf3AUZosU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "69562046511-vm8ntvvsds88l2u7f2a1kb6cbhtd66qp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

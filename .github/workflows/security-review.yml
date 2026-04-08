@@ -1,0 +1,106 @@
+# ============================================================================
+# Claude Code Security Review
+# Analiza código en busca de vulnerabilidades de seguridad usando Claude AI.
+# Se ejecuta automáticamente en cada PR y también manualmente.
+# Requiere: secret CLAUDE_API_KEY en Settings → Secrets → Actions
+# ============================================================================
+
+name: 🔒 Security Review (Claude AI)
+
+permissions:
+  pull-requests: write
+  contents: read
+
+on:
+  # Automático en Pull Requests
+  pull_request:
+    branches: [main, develop]
+
+  # Manual: permite ejecutar desde la pestaña Actions
+  workflow_dispatch:
+    inputs:
+      scan-scope:
+        description: 'Qué escanear'
+        required: false
+        default: 'changed-files'
+        type: choice
+        options:
+          - changed-files
+          - full-repo
+
+  # También en push a main para tener historial de seguridad
+  push:
+    branches: [main]
+
+jobs:
+  security-review:
+    name: Claude Security Scan
+    runs-on: ubuntu-latest
+    # No correr en dependabot PRs o bots
+    if: github.actor != 'dependabot[bot]'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 2
+
+      - name: Run Claude Security Review
+        uses: anthropics/claude-code-security-review@main
+        id: security
+        with:
+          comment-pr: ${{ github.event_name == 'pull_request' }}
+          claude-api-key: ${{ secrets.CLAUDE_API_KEY }}
+          claude-model: 'claude-sonnet-4-20250514'
+          # Excluir directorios que no necesitan revisión de seguridad
+          exclude-directories: 'node_modules,.next,coverage,playwright-report,reports,docs,.agent,.agents'
+          # Timeout generoso para repos grandes
+          claudecode-timeout: 30
+          # Instrucciones custom para nuestro stack
+          custom-security-scan-instructions: |
+            Este es un proyecto Next.js + Firebase (Firestore, Auth, Functions).
+            Es una plataforma SaaS multi-tenant de gestión de calidad ISO 9001.
+
+            PRIORIZAR revisión en:
+            - Multi-tenancy: verificar que las queries a Firestore SIEMPRE filtren por organization_id
+            - API routes (src/app/api/): verificar autenticación y autorización
+            - Acceso cruzado entre organizaciones (IDOR)
+            - Secrets/API keys hardcodeados (Firebase, OpenAI, ElevenLabs, WhatsApp)
+            - Inyección en prompts de IA (prompt injection en chat/audit)
+            - Validación de inputs en formularios y APIs
+            - Permisos de Firebase Security Rules
+            - Uso seguro de dangerouslySetInnerHTML o eval()
+
+            IGNORAR:
+            - Archivos de test (src/__tests__/)
+            - Archivos de configuración de herramientas (jest.config, tailwind.config, etc)
+            - Marketing/landing page components (src/components/marketing/)
+
+      - name: Security Results Summary
+        if: always()
+        run: |
+          echo "## 🔒 Security Review Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Findings:** ${{ steps.security.outputs.findings-count || '0' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Results file:** ${{ steps.security.outputs.results-file || 'N/A' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Trigger:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload Security Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-review-results
+          path: ${{ steps.security.outputs.results-file || '.' }}
+          retention-days: 90
+          if-no-files-found: ignore
+
+      - name: Fail on Critical Findings
+        if: steps.security.outputs.findings-count > 0
+        run: |
+          echo "⚠️ Se encontraron ${{ steps.security.outputs.findings-count }} hallazgos de seguridad."
+          echo "Revisa los comentarios en la PR o el artifact adjunto."
+          # No falla el CI por ahora, solo advierte
+          # exit 1

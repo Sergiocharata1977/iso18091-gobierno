@@ -1,0 +1,35 @@
+
+const { initializeApp, cert } = require('firebase-admin/app');
+const { getFirestore } = require('firebase-admin/firestore');
+const serviceAccount = require('./service-account.json'); // Assumed present or will use default auth
+
+// Mocking environment for the script if needed, or using direct admin SDK if available
+// Since I don't have the service account key file here, I will create a script that runs within the Next.js environment context or inspects the build output if I could.
+// But wait, the user is running a live app. I can't run backend code directly on their machine's Vercel deployment.
+// However, I can try to run a script LOCALLY on their machine if they have credentials.
+
+// Alternative: Create a test API route that exposes the specific error message?
+// No, I can't deploy just for debugging easily.
+
+// Let's look closer at PositionService.ts.
+// Line 34: where('organization_id', '==', organizationId)
+// Line 36: await getDocs(q);
+
+// Issue: Does 'positions' collection exist?
+// Issue: Is 'organization_id' indexed? (Single field indexes are auto-created, so '==' should work without composite index).
+// Issue: Does doc.data() have keys that cause error in .toDate()? 
+// If created_at is null, .toDate() would crash if we didn't have optional chaining (?.toDate()).
+// Line 41: created_at: doc.data().created_at?.toDate() || new Date(),
+// This looks safe.
+
+// Wait, look at DepartmentService.ts
+// getPaginated method
+// Line 72: where('organization_id', '==', organizationId)
+// Line 77: q = query(q, where('is_active', '==', filters.is_active));
+// Single field '==' is fine. Two '==' filters requires a composite index? 
+// Firestore rule: "You can perform range (<, <=, >, >=) or inequality (!=) comparisons only on a single field... Equal (==) and array-contains clauses don't have this limitation."
+// MULTIPLE EQUALITY FILTERS DO NOT REQUIRE A COMPOSITE INDEX.
+// So: where('org_id', '==', X) AND where('is_active', '==', Y) should work natively.
+
+// So why the 500? Use the "reproduce-500.js" approach if I can run it?
+// The user environment has a 'scripts' folder. Let's see if I can use it.

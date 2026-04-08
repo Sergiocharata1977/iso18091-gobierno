@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- CRM: briefcase icon + "CRM" label -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Briefcase body -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M38,46 Q36,46 36,48 L36,72 Q36,74 38,74 L70,74 Q72,74 72,72 L72,48 Q72,46 70,46 Z" />
+    <!-- Briefcase handle -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M46,46 L46,42 Q46,38 50,38 L58,38 Q62,38 62,42 L62,46"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="3"
+        android:fillAlpha="0" />
+    <!-- Middle bar -->
+    <path
+        android:fillColor="#1565C0"
+        android:pathData="M36,56 L72,56 L72,62 L36,62 Z" />
+</vector>
