@@ -8,6 +8,7 @@
   },
   "hosting": {
     "source": ".",
+    "site": "iso18091-gobierno",
     "cleanUrls": true,
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
   }

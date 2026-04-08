@@ -49,9 +49,9 @@ export const packGovManifest: PluginManifest = {
     required_capabilities: [],
     optional_capabilities: [],
     incompatible_plugins: [],
-    tenant_types_allowed: [],
+    tenant_types_allowed: ['government'],
     regions_allowed: [],
-    deployment_modes: ['shared_saas'],
+    deployment_modes: ['shared_saas', 'dedicated_government'],
   },
   dependencies: {
     services: [],

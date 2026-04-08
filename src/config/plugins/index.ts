@@ -284,3 +284,11 @@ export const PLATFORM_PLUGIN_MANIFESTS: PluginManifest[] = [
   openclawManifest,
   packGovManifest,
 ];
+
+// Gobierno Local Edition defaults
+export {
+  GOBIERNO_EDITION_DEFAULT_PLUGINS,
+  GOBIERNO_EDITION_DEFAULT_CAPABILITIES,
+  GOBIERNO_EDITION_HIDDEN_CAPABILITIES,
+  EDITION as GOBIERNO_EDITION,
+} from './gobierno-edition-defaults';

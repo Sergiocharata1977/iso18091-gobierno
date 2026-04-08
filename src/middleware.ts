@@ -1,7 +1,13 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
+// iso18091-gobierno (Firebase: gobiernos-locales-iso) — exclusivamente edición gobierno local
+const IS_GOVERNMENT_EDITION = true; // forzado por diseño en este fork
+
 const GOVERNMENT_PANEL_ROUTE = '/gobierno/panel';
+const DEFAULT_AUTHENTICATED_ROUTE = IS_GOVERNMENT_EDITION
+  ? GOVERNMENT_PANEL_ROUTE
+  : '/';
 const ENTERPRISE_HOME_ROUTES = new Set(['/', '/dashboard', '/noticias']);
 
 const PUBLIC_PAGE_PREFIXES = [
@@ -126,10 +132,10 @@ export function middleware(request: NextRequest) {
   if (
     hasSessionAuth(request) &&
     ENTERPRISE_HOME_ROUTES.has(pathname) &&
-    getTokenEdition(request) === 'government'
+    (IS_GOVERNMENT_EDITION || getTokenEdition(request) === 'government')
   ) {
     const governmentUrl = request.nextUrl.clone();
-    governmentUrl.pathname = GOVERNMENT_PANEL_ROUTE;
+    governmentUrl.pathname = DEFAULT_AUTHENTICATED_ROUTE;
     governmentUrl.search = '';
     return NextResponse.redirect(governmentUrl);
   }

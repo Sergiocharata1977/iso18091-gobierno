@@ -1,3 +1,9 @@
+// ============================================================
+// iso18091-gobierno ? Don C?ndido Edici?n Gobierno Local ISO 18091
+// Fork de: https://github.com/Sergiocharata1977/9001app-v8
+// Repo:    https://github.com/Sergiocharata1977/iso18091-gobierno
+// ============================================================
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // ESM-only packages that need transpilation for SSR/SSG compatibility

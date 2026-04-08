@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "app-4b05c"
+    "default": "gobiernos-locales-iso",
+    "gobierno": "gobiernos-locales-iso",
+    "production": "gobiernos-locales-iso"
   }
 }
