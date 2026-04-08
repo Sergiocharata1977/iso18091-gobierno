@@ -19,7 +19,7 @@ export type PlanType = 'trial' | 'basic' | 'premium' | 'none';
 export interface User {
   id: string; // Firebase Auth UID
   email: string;
-  getIdToken: () => Promise<string>;
+  getIdToken?: () => Promise<string>;
   personnel_id: string | null;
   rol: UserRole;
   activo: boolean; // Mantener por retrocompatibilidad, sync con status === 'active'
