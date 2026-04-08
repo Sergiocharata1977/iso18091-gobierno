@@ -189,7 +189,7 @@ export class WhatsAppCircuitBreaker {
               failure_count: 0,
               success_count: 0,
               opened_at: FieldValue.delete(),
-            } satisfies Partial<StoredCircuitBreakerData> & {
+            } satisfies Omit<Partial<StoredCircuitBreakerData>, 'opened_at'> & {
               opened_at: FirebaseFirestore.FieldValue;
             },
             { merge: true }
@@ -251,7 +251,7 @@ export class WhatsAppCircuitBreaker {
           success_count: 0,
           last_failure_at: now,
           opened_at: shouldOpen ? now : FieldValue.delete(),
-        } satisfies Partial<StoredCircuitBreakerData> & {
+        } satisfies Omit<Partial<StoredCircuitBreakerData>, 'opened_at'> & {
           opened_at: FirebaseFirestore.Timestamp | FirebaseFirestore.FieldValue;
         },
         { merge: true }
