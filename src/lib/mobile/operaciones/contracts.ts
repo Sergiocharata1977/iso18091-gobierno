@@ -168,13 +168,7 @@ export type MobileOperationsMeta = {
   };
 };
 
-type MobileSuccessData =
-  | Record<string, unknown>
-  | unknown[]
-  | string
-  | number
-  | boolean
-  | null;
+type MobileSuccessData = unknown;
 
 type MobileErrorCode =
   | 'unauthorized'
