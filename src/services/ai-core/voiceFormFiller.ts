@@ -491,7 +491,7 @@ export async function extractFieldsFromVoice(
   }
 
   const validationRules = options?.validationRules;
-  if ((validationRules?.length ?? 0) > 0) {
+  if (validationRules && validationRules.length > 0) {
     const validationResults = validator.validateAll(extracted, validationRules);
 
     const invalidFieldIds = validationResults
