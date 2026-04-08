@@ -20,8 +20,8 @@ const COLLECTION_NAME = 'users';
 export class UserService {
   /**
    * @deprecated Para nuevos registros de clientes usar SelfRegistrationService.register()
-   * Este método establece status: 'pending_approval' y activo: false - es el flujo LEGACY
-   * de alta manual que requiere aprobación de administrador.
+   * Este mÃ©todo establece status: 'pending_approval' y activo: false - es el flujo LEGACY
+   * de alta manual que requiere aprobaciÃ³n de administrador.
    * Mantener para compatibilidad con cuentas existentes y flujo super-admin.
    */
   static async createUser(authUser: {

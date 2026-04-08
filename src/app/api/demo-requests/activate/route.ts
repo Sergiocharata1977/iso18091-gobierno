@@ -3,9 +3,9 @@ import { getAdminAuth, getAdminFirestore } from '@/lib/firebase/admin';
 import { NextRequest, NextResponse } from 'next/server';
 
 /**
- * LEGACY ADMIN ROUTE - Flujo de activación manual de demo requests.
+ * LEGACY ADMIN ROUTE - Flujo de activaciÃ³n manual de demo requests.
  * Este endpoint es solo para uso interno de super-admin.
- * Los nuevos clientes se registran vía POST /api/auth/self-register (autoservicio).
+ * Los nuevos clientes se registran vÃ­a POST /api/auth/self-register (autoservicio).
  * No eliminar: mantiene compatibilidad con cuentas creadas antes de 2026-04-08.
  */
 

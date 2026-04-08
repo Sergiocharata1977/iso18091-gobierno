@@ -199,7 +199,7 @@ export async function sendMessage(
   try {
     const db = getDb();
 
-    // 1. Buscar o crear conversaci髇
+    // 1. Buscar o crear conversaci贸n
     let conversation = data.conversation_id
       ? await getConversationById(data.conversation_id)
       : await findConversation(data.organization_id, data.to);
@@ -219,7 +219,7 @@ export async function sendMessage(
       });
     }
 
-    // 2. Rate limiting + circuit breaker antes del env韔 saliente
+    // 2. Rate limiting + circuit breaker antes del env铆o saliente
     const rateLimiter = new WhatsAppRateLimiter(db, {
       max_per_hour: 100,
       max_per_minute: 10,
@@ -266,19 +266,19 @@ export async function sendMessage(
       .collection(MESSAGES_COLLECTION)
       .add(messageData);
 
-    // 4. Actualizar la conversaci髇
+    // 4. Actualizar la conversaci贸n
     await updateConversation(conversation.id, {
       ultimo_mensaje: data.body.substring(0, 100),
       ultimo_mensaje_at: new Date(),
     });
 
-    // 5. Crear Acci髇 CRM autom醫ica
+    // 5. Crear Acci贸n CRM autom谩tica
     try {
       const nuevaAccion = {
         organization_id: data.organization_id,
         cliente_id: data.cliente_id || null,
         cliente_nombre: data.cliente_nombre || null,
-        oportunidad_id: null, // Podr韆mos pasarlo si data lo tuviera
+        oportunidad_id: null, // Podr铆amos pasarlo si data lo tuviera
         tipo: 'whatsapp',
         canal: 'whatsapp',
         titulo: `WhatsApp Saliente: ${data.to}`,
@@ -302,10 +302,10 @@ export async function sendMessage(
         .add(nuevaAccion);
     } catch (actionError) {
       console.error(
-        '[WhatsAppService] Error creando acci髇 CRM autom醫ica:',
+        '[WhatsAppService] Error creando acci贸n CRM autom谩tica:',
         actionError
       );
-      // No fallamos el env韔 si falla el registro de la acci髇, es un efecto secundario
+      // No fallamos el env铆o si falla el registro de la acci贸n, es un efecto secundario
     }
 
     return {
