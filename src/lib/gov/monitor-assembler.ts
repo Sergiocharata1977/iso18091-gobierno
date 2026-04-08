@@ -328,15 +328,19 @@ function buildGaps(input: {
   }
 
   for (const alert of input.strategicSummary?.executive_alerts ?? []) {
+    const recommendedAction =
+      alert.recommended_action ||
+      'Definir accion correctiva priorizada y responsable municipal.';
+
     gaps.push({
       id: `gap-alert-${alert.id}`,
       title: alert.title,
       priority: alert.severity === 'critica' ? 'alta' : 'media',
       status: alert.severity === 'critica' ? 'critico' : 'en_riesgo',
       area: 'riesgos',
-      reason: alert.recommended_action,
+      reason: recommendedAction,
       evidence: [`Alerta ejecutiva ${alert.severity}`],
-      suggested_action: alert.recommended_action,
+      suggested_action: recommendedAction,
     });
   }
 
