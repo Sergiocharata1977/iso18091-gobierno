@@ -31,7 +31,7 @@ export async function getAuthToken(): Promise<string> {
     throw new Error('No hay usuario autenticado');
   }
 
-  return user.getIdToken();
+  return user?.getIdToken?.();
 }
 
 /**
@@ -43,7 +43,7 @@ export async function getAuthTokenSafe(): Promise<string | null> {
     const auth = getAuth();
     const user = auth.currentUser;
     if (!user) return null;
-    return await user.getIdToken();
+    return await user?.getIdToken?.();
   } catch {
     return null;
   }

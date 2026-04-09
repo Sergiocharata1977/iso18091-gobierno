@@ -55,7 +55,7 @@ export function ReactionButton({
     const auth = getAuth();
     const user = auth.currentUser;
     if (!user) throw new Error('No authenticated user');
-    return user.getIdToken();
+    return user?.getIdToken?.();
   };
 
   const handleReaction = async () => {

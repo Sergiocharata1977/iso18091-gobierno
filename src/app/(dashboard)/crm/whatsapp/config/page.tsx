@@ -230,7 +230,7 @@ export default function CRMWhatsAppConfigPage() {
               organizationId={orgId ?? ''}
               getAuthToken={async () => {
                 if (!user) throw new Error('Sesion no disponible.');
-                return user.getIdToken();
+                return user?.getIdToken?.();
               }}
               onConnected={() => {
                 void loadConfig();

@@ -103,7 +103,7 @@ export function PostCard({
     const auth = getAuth();
     const user = auth.currentUser;
     if (!user) throw new Error('No authenticated user');
-    return user.getIdToken();
+    return user?.getIdToken?.();
   };
 
   const loadComments = async () => {

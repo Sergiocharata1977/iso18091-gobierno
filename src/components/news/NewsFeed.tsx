@@ -36,7 +36,7 @@ export function NewsFeed({ currentUserId, isAdmin = false }: NewsFeedProps) {
     const auth = getAuth();
     const user = auth.currentUser;
     if (!user) throw new Error('No authenticated user');
-    return user.getIdToken();
+    return user?.getIdToken?.();
   };
 
   const loadPosts = async (pageNum: number = 1) => {
