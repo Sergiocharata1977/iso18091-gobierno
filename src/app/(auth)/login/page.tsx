@@ -73,7 +73,7 @@ function LoginForm() {
       let userEdition: Edition | null = null;
 
       try {
-        const idTokenResult = await result.user?.getIdTokenResult();
+        const idTokenResult = result.user ? await result.user.getIdTokenResult() : undefined;
         userEdition =
           idTokenResult?.claims.edition === 'government'
             ? 'government'

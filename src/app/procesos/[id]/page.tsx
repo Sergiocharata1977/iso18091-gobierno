@@ -121,7 +121,8 @@ export default function ProcessDetailPage() {
     if (nextOpen && !actividadLoaded) {
       setActividadLoading(true);
       try {
-        const token = await getAuth().currentUser?.getIdToken();
+        const currentUser = getAuth().currentUser;
+        const token = currentUser ? await currentUser.getIdToken() : undefined;
         const res = await fetch(
           `/api/admin/procesos/${processId}/terminal-activity`,
           {
