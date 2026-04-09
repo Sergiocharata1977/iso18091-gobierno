@@ -37,7 +37,7 @@ export default function OnboardingPage() {
 
   const fetchData = async () => {
     if (!user) return;
-    const token = await user.getIdToken();
+    const token = await user?.getIdToken?.();
     const res = await fetch('/api/rrhh/onboarding', { headers: { Authorization: `Bearer ${token}` } });
     if (res.ok) setOnboardings(await res.json());
     setLoading(false);
@@ -49,7 +49,7 @@ export default function OnboardingPage() {
     if (!user || !form.personnel_nombre || !form.fecha_ingreso) return;
     setSaving(true);
     try {
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken?.();
       const res = await fetch('/api/rrhh/onboarding', {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
@@ -72,7 +72,7 @@ export default function OnboardingPage() {
 
   const toggleTarea = async (onb: Onboarding, tareaId: string) => {
     if (!user) return;
-    const token = await user.getIdToken();
+    const token = await user?.getIdToken?.();
     const nuevasTareas = onb.tareas.map(t => {
       if (t.id !== tareaId) return t;
       return {

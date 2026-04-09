@@ -169,7 +169,7 @@ export default function RevisionesProgramadasPage() {
     setLoading(true);
 
     try {
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken?.();
       const response = await fetch(
         `/api/revision-schedules?organization_id=${encodeURIComponent(organizationId)}`,
         {
@@ -248,7 +248,7 @@ export default function RevisionesProgramadasPage() {
     setSaving(true);
 
     try {
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken?.();
       const payload: CreateRevisionScheduleDTO = {
         modulo: form.modulo,
         titulo: form.titulo.trim(),
@@ -303,7 +303,7 @@ export default function RevisionesProgramadasPage() {
     setProcessingId(revision.id);
 
     try {
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken?.();
       const response = await fetch(
         `/api/revision-schedules/${revision.id}?organization_id=${encodeURIComponent(organizationId)}`,
         {
@@ -347,7 +347,7 @@ export default function RevisionesProgramadasPage() {
     setProcessingId(revision.id);
 
     try {
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken?.();
       const response = await fetch(
         `/api/revision-schedules/${revision.id}?organization_id=${encodeURIComponent(organizationId)}`,
         {

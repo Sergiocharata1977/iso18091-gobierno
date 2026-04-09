@@ -74,7 +74,7 @@ export default function CRMWhatsAppConfigPage() {
     setError(null);
 
     try {
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken?.();
       const response = await fetch(
         `/api/whatsapp/config?organization_id=${encodeURIComponent(orgId)}`,
         {
@@ -109,7 +109,7 @@ export default function CRMWhatsAppConfigPage() {
     setError(null);
 
     try {
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken?.();
       const response = await fetch(
         `/api/whatsapp/config?organization_id=${encodeURIComponent(orgId)}`,
         {
@@ -148,7 +148,7 @@ export default function CRMWhatsAppConfigPage() {
     setError(null);
 
     try {
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken?.();
       const response = await fetch(
         `/api/whatsapp/config?organization_id=${encodeURIComponent(orgId)}`,
         {

@@ -48,7 +48,7 @@ export default function RelacionesPage() {
 
   const fetchData = async () => {
     if (!user) return;
-    const token = await user.getIdToken();
+    const token = await user?.getIdToken?.();
     const headers = { Authorization: `Bearer ${token}` };
     const [aRes, iRes] = await Promise.all([
       fetch('/api/rrhh/relaciones?tipo=acuerdos', { headers }),
@@ -65,7 +65,7 @@ export default function RelacionesPage() {
     if (!user || !acuerdoForm.titulo) return;
     setSaving(true);
     try {
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken?.();
       const res = await fetch('/api/rrhh/relaciones?tipo=acuerdos', {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
@@ -79,7 +79,7 @@ export default function RelacionesPage() {
     if (!user || !incidenteForm.descripcion) return;
     setSaving(true);
     try {
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken?.();
       const res = await fetch('/api/rrhh/relaciones?tipo=incidentes', {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },

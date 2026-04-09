@@ -60,7 +60,7 @@ export default function OffboardingPage() {
 
   const fetchData = async () => {
     if (!user) return;
-    const token = await user.getIdToken();
+    const token = await user?.getIdToken?.();
     const res = await fetch('/api/rrhh/offboarding', { headers: { Authorization: `Bearer ${token}` } });
     if (res.ok) setOffboardings(await res.json());
     setLoading(false);
@@ -72,7 +72,7 @@ export default function OffboardingPage() {
     if (!user || !form.personnel_nombre || !form.fecha_egreso) return;
     setSaving(true);
     try {
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken?.();
       const res = await fetch('/api/rrhh/offboarding', {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
@@ -96,7 +96,7 @@ export default function OffboardingPage() {
 
   const toggleTarea = async (offb: Offboarding, tareaId: string) => {
     if (!user) return;
-    const token = await user.getIdToken();
+    const token = await user?.getIdToken?.();
     const nuevasTareas = offb.tareas.map(t => {
       if (t.id !== tareaId) return t;
       return {

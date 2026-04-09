@@ -36,7 +36,7 @@ export default function PlanificacionPage() {
 
   const fetchData = async () => {
     if (!user) return;
-    const token = await user.getIdToken();
+    const token = await user?.getIdToken?.();
     const res = await fetch('/api/rrhh/planificacion', { headers: { Authorization: `Bearer ${token}` } });
     if (res.ok) setPlanes(await res.json());
     setLoading(false);
@@ -48,7 +48,7 @@ export default function PlanificacionPage() {
     if (!user || !form.departamento_nombre || !form.headcount_actual) return;
     setSaving(true);
     try {
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken?.();
       const res = await fetch('/api/rrhh/planificacion', {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },

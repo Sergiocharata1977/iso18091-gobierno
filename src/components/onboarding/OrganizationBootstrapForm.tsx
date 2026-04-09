@@ -87,7 +87,7 @@ export function OrganizationBootstrapForm({
     setError('');
 
     try {
-      const idToken = await user.getIdToken();
+      const idToken = await user?.getIdToken?.();
       const response = await fetch('/api/onboarding/bootstrap', {
         method: 'POST',
         headers: {

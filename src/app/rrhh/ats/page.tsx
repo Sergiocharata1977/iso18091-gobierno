@@ -71,7 +71,7 @@ export default function ATSPage() {
 
   const fetchData = async () => {
     if (!user) return;
-    const token = await user.getIdToken();
+    const token = await user?.getIdToken?.();
     const headers = { Authorization: `Bearer ${token}` };
     const [vRes, cRes] = await Promise.all([
       fetch('/api/rrhh/vacantes', { headers }),
@@ -95,7 +95,7 @@ export default function ATSPage() {
     if (!user || !vacanteForm.titulo) return;
     setSaving(true);
     try {
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken?.();
       const res = await fetch('/api/rrhh/vacantes', {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
@@ -119,7 +119,7 @@ export default function ATSPage() {
     if (!user || !selectedVacante || !candidatoForm.nombre || !candidatoForm.email) return;
     setSaving(true);
     try {
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken?.();
       const res = await fetch('/api/rrhh/candidatos', {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
@@ -143,7 +143,7 @@ export default function ATSPage() {
 
   const moverCandidato = async (candidato: Candidato, nuevaEtapa: EtapaSeleccion) => {
     if (!user) return;
-    const token = await user.getIdToken();
+    const token = await user?.getIdToken?.();
     await fetch(`/api/rrhh/candidatos/${candidato.id}`, {
       method: 'PUT',
       headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },

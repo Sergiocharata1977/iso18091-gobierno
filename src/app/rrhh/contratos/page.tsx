@@ -70,7 +70,7 @@ export default function ContratosPage() {
   const fetchContratos = async () => {
     if (!user) return;
     try {
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken?.();
       const res = await fetch('/api/rrhh/contratos', {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -86,7 +86,7 @@ export default function ContratosPage() {
     if (!user || !form.personnel_nombre || !form.fecha_inicio) return;
     setSaving(true);
     try {
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken?.();
       const body = {
         personnel_nombre: form.personnel_nombre,
         personnel_id: form.personnel_id || `manual_${Date.now()}`,

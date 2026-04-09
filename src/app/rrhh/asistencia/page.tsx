@@ -60,7 +60,7 @@ export default function AsistenciaPage() {
 
   const fetchData = async () => {
     if (!user) return;
-    const token = await user.getIdToken();
+    const token = await user?.getIdToken?.();
     const headers = { Authorization: `Bearer ${token}` };
     const [fRes, aRes] = await Promise.all([
       fetch(`/api/rrhh/fichajes?mes=${mesFiltro}`, { headers }),
@@ -77,7 +77,7 @@ export default function AsistenciaPage() {
     if (!user || !fichajeForm.personnel_nombre || !fichajeForm.fecha) return;
     setSaving(true);
     try {
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken?.();
       const res = await fetch('/api/rrhh/fichajes', {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
@@ -94,7 +94,7 @@ export default function AsistenciaPage() {
     if (!user || !ausenciaForm.personnel_nombre || !ausenciaForm.desde) return;
     setSaving(true);
     try {
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken?.();
       const res = await fetch('/api/rrhh/ausencias', {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },

@@ -35,7 +35,7 @@ export default function ClimaPage() {
 
   const fetchData = async () => {
     if (!user) return;
-    const token = await user.getIdToken();
+    const token = await user?.getIdToken?.();
     const res = await fetch('/api/rrhh/clima', { headers: { Authorization: `Bearer ${token}` } });
     if (res.ok) setEncuestas(await res.json());
     setLoading(false);
@@ -47,7 +47,7 @@ export default function ClimaPage() {
     if (!user || !form.titulo) return;
     setSaving(true);
     try {
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken?.();
       const res = await fetch('/api/rrhh/clima', {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
@@ -59,7 +59,7 @@ export default function ClimaPage() {
 
   const activar = async (id: string, estado: EncuestaClima['estado']) => {
     if (!user) return;
-    const token = await user.getIdToken();
+    const token = await user?.getIdToken?.();
     await fetch(`/api/rrhh/clima/${id}`, {
       method: 'PUT',
       headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },

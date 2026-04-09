@@ -57,7 +57,7 @@ export default function TalentoPage() {
 
   const fetchData = async () => {
     if (!user) return;
-    const token = await user.getIdToken();
+    const token = await user?.getIdToken?.();
     const res = await fetch('/api/rrhh/talento?tipo=talentos', { headers: { Authorization: `Bearer ${token}` } });
     if (res.ok) setTalentos(await res.json());
     setLoading(false);
@@ -69,7 +69,7 @@ export default function TalentoPage() {
     if (!user || !form.personnel_nombre) return;
     setSaving(true);
     try {
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken?.();
       const p = Number(form.potencial) as 1|2|3;
       const d = Number(form.desempeno) as 1|2|3;
       const res = await fetch('/api/rrhh/talento?tipo=talentos', {

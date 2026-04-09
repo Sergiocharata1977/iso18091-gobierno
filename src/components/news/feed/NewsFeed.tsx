@@ -89,7 +89,7 @@ export function NewsFeed({
       if (!user) {
         throw new Error('No authenticated user');
       }
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken?.();
 
       // Upload images client-side first (this works with Firebase client SDK)
       let uploadedImages: Array<{
@@ -206,7 +206,7 @@ export function NewsFeed({
       if (!user) {
         throw new Error('No authenticated user');
       }
-      const token = await user.getIdToken();
+      const token = await user?.getIdToken?.();
 
       // Call DELETE API
       const response = await fetch(`/api/news/posts/${postId}`, {
