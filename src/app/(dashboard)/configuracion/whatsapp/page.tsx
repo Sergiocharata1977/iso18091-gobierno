@@ -272,7 +272,7 @@ export default function ConfiguracionWhatsAppPage() {
     if (!orgId) return;
     try {
       setLoading(true);
-      const token = user ? await user.getIdToken() : undefined;
+      const token = await user?.getIdToken?.();
       const response = await fetch(`/api/configuracion/whatsapp?organization_id=${encodeURIComponent(orgId)}`, {
         headers: { Authorization: `Bearer ${token ?? ''}` },
         cache: 'no-store',
@@ -326,7 +326,7 @@ export default function ConfiguracionWhatsAppPage() {
     if (!orgId) return;
     setSaving(true);
     try {
-      const token = user ? await user.getIdToken() : undefined;
+      const token = await user?.getIdToken?.();
       const response = await fetch(`/api/configuracion/whatsapp?organization_id=${encodeURIComponent(orgId)}`, {
         method: 'PUT',
         headers: {
@@ -354,7 +354,7 @@ export default function ConfiguracionWhatsAppPage() {
     setTestingWebhook(true);
     setWebhookResult(null);
     try {
-      const token = user ? await user.getIdToken() : undefined;
+      const token = await user?.getIdToken?.();
       const response = await fetch(`/api/configuracion/whatsapp/test-webhook?organization_id=${encodeURIComponent(orgId)}`, {
         method: 'POST',
         headers: {
@@ -391,7 +391,7 @@ export default function ConfiguracionWhatsAppPage() {
     setConnecting(true);
     setConnectError(null);
     try {
-      const token = user ? await user.getIdToken() : undefined;
+      const token = await user?.getIdToken?.();
       const response = await fetch('/api/whatsapp/connect', {
         method: 'POST',
         headers: {
